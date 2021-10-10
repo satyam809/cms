@@ -20,7 +20,9 @@ class Admin extends CI_Controller
             //echo $result;
             //die;
             if ($result) {
-                echo json_encode(array("message" => "{$result},", "status" => true));
+                echo json_encode(array("status" => true));
+            } else {
+                echo json_encode(array("message" => "Incorrect username or password", "status" => false));
             }
             die;
         }

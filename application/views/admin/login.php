@@ -152,9 +152,7 @@
     $('#login').on('submit', function(e) {
       e.preventDefault();
 
-      //alert($('#login').serialize());
-      console.log($('#login').serialize());
-      //$('#response').html($('#login').serialize());
+
       $.ajax({
         url: "<?php echo base_url(); ?>admin/login",
         method: "POST",
@@ -167,10 +165,12 @@
         //   $('#login').val("connecting...");
         // },
         success: function(data) {
-          console.log(data);
+          //console.log(data);
           //console.log(data.status);
           if (data.status == true) {
             window.location = "<?php echo base_url(); ?>admin";
+          } else {
+            alert(data.message);
           }
         }
       });
