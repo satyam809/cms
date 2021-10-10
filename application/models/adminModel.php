@@ -14,7 +14,14 @@ class adminModel extends CI_Model
             return $username;
         }
     }
+    public function course_fetch()
+    {
 
+        $displayquery = "SELECT * FROM `course_table`";
+        $result = $this->db->query($displayquery);
+        //print_r($result->rowCount());die;
+        return $result;
+    }
     function course_insert($course_name, $fee, $duration, $feature)
     {
 
@@ -209,24 +216,9 @@ class adminModel extends CI_Model
     }
     public function getUserDetails()
     {
-        $sql = "SELECT * FROM `contact_table`";
-        $setRec = $this->db->query($sql);
-        $columnHeader = '';
-        $columnHeader = "id" . "\t" . "first name" . "\t" . "last name" . "\t" . "phone" . "\t" . "email" . "\t" . "date" . "\t";
-        $setData = '';
-        while ($rec = $setRec->result()) {
-            $rowData = '';
-            foreach ($rec as $value) {
-                $value = '"' . $value . '"' . "\t";
-                $rowData .= $value;
-            }
-            $setData .= trim($rowData) . "\n";
-        }
-
-        header("Content-type: application/octet-stream");
-        header("Content-Disposition: attachment; filename=contact.xls");
-        header("Pragma: no-cache");
-        header("Expires: 0");
-        echo ucwords($columnHeader) . "\n" . $setData . "\n";
+        $response = array();
+        $q = $this->db->query("SELECT * FROM `contact_table`");
+        $response = $q->result_array();
+        return $response;
     }
 }

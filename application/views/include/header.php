@@ -88,7 +88,7 @@
                     <ul class="nav navbar-nav">
                         <li> <a href="<?php echo base_url() ?>">Home</a></li>
                         <li> <a href="<?php echo base_url() ?>about">About Us</a></li>
-                        <li><a href="<?php echo base_url() ?>our_courses">Our Courses</a></li>
+                        <li><a href="<?php echo base_url() ?>courses">Our Courses</a></li>
 
                         <li> <a href="<?php echo base_url() ?>downloads">Downloads</a></li>
                         <li> <a href="<?php echo base_url() ?>gallery">Gallery</a></li>

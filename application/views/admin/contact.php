@@ -10,7 +10,7 @@
                 </div> -->
             <div class="col-sm-12 center_btn">
                <a type="button" id="delete_records" class="btn btn-default">Delete</a>
-               <a href="<?php echo base_url(); ?>admin/exportcontact?export=contact" type="button" data-eid="contact" class="btn btn-default">Export</a>
+               <a href="<?php echo base_url(); ?>admin/export_csv" type="button" data-eid="contact" class="btn btn-default">Export</a>
 
             </div>
          </div>
@@ -100,7 +100,7 @@
                var selected_values = contact.join(","); //alert(selected_values);
                $.ajax({
                   type: "POST",
-                  url: "api/contact/delete_all_contact.php",
+                  url: "<?php echo base_url(); ?>admin/deletecontact",
                   dataType: "json",
                   cache: false,
                   data: 'id=' + selected_values,

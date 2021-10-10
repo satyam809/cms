@@ -83,10 +83,10 @@
 </section>
 <!-- End Our Importance Section -->
 <script type="text/javascript">
-    // fetch gallery
+    // fetch course
     function loadCourses() {
         $.ajax({
-            url: "http://localhost/myproject/ims/admin/api/course/coursesFetch.php",
+            url: "<?php echo base_url(); ?>admin/fetchCourses",
             dataType: "json",
             success: function(data) {
                 //console.log(data);

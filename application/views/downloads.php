@@ -14,7 +14,7 @@
    // fetch gallery
    function downloadsFetch() {
       $.ajax({
-         url: "http://localhost/myproject/ims/admin/api/download/downloadsFetch.php",
+         url: "<?php echo base_url(); ?>admin/viewDownloads",
          dataType: "json",
          success: function(data) {
             //console.log(data);
@@ -28,7 +28,7 @@
                <h5>${value.file_name}</h5>
             </div>
             <div class="col-md-6" style="text-align: -webkit-center;">
-               <a href="admin/download_file/${value.file}" type="button" class="btn btn-default" download><i class="fa fa-download"></i>&nbsp;Download</a>
+               <a href="assets/admin/download_file/${value.file}" type="button" class="btn btn-default" download><i class="fa fa-download"></i>&nbsp;Download</a>
             </div>
          </div>`);
                });

@@ -1,5 +1,5 @@
 <?php
-//session_start();
+
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Admin extends CI_Controller
@@ -28,8 +28,12 @@ class Admin extends CI_Controller
     }
     public function logout()
     {
-        $this->session->unset_userdata('login');
-        $this->load->view('admin/login');
+        if (!$this->session->userdata('login')) {
+            $this->load->view('admin/login');
+        } else {
+            $this->session->unset_userdata('login');
+            $this->load->view('admin/login');
+        }
     }
     public function index()
     {
@@ -37,6 +41,18 @@ class Admin extends CI_Controller
             $this->load->view('admin/login');
         } else {
             $this->load->view('admin/index');
+        }
+    }
+    public function fetchCourses()
+    {
+        $result = $this->adminModel->course_fetch();
+        //echo "<pre>";
+        //print_r($result->fetchAll(PDO::FETCH_ASSOC));
+        $output = $result->result();
+        if ($output != "") {
+            echo json_encode($output);
+        } else {
+            echo json_encode(array('message' => 'No course', 'status' => false));
         }
     }
 
@@ -74,16 +90,12 @@ class Admin extends CI_Controller
     }
     public function singleCourse()
     {
-        if (!$this->session->userdata('login')) {
-            $this->load->view('admin/login');
-        } else {
 
-            $result = $this->adminModel->course_single($_POST['id']);
-            if ($result != "") {
-                echo json_encode($result);
-            } else {
-                echo json_encode(array('message' => 'something wrong', 'status' => false));
-            }
+        $result = $this->adminModel->course_single($_POST['id']);
+        if ($result != "") {
+            echo json_encode($result);
+        } else {
+            echo json_encode(array('message' => 'something wrong', 'status' => false));
         }
     }
     public function editCourses()
@@ -107,17 +119,14 @@ class Admin extends CI_Controller
     }
     public function deleteCourse()
     {
-        if (!$this->session->userdata('login')) {
-            $this->load->view('admin/login');
+
+        $id = $_POST['id']; //echo $file_name;
+        $result = $this->adminModel->course_delete($id);
+        //echo $result;die();
+        if ($result == true) {
+            echo json_encode(array("message" => "Deleted successfully", "status" => true));
         } else {
-            $id = $_POST['id']; //echo $file_name;
-            $result = $this->adminModel->course_delete($id);
-            //echo $result;die();
-            if ($result == true) {
-                echo json_encode(array("message" => "Deleted successfully", "status" => true));
-            } else {
-                echo json_encode(array("message" => "something wrong", "status" => false));
-            }
+            echo json_encode(array("message" => "something wrong", "status" => false));
         }
     }
     public function downloads()
@@ -252,7 +261,24 @@ class Admin extends CI_Controller
             echo json_encode(array('message' => 'No course', 'status' => false));
         }
     }
-    public function exportcontact()
+    public function deletecontact()
+    {
+        $id = trim($_POST['id']);
+        if ($this->adminModel->contact_delete_all($id)) {
+            echo json_encode(array('message' => 'Records deleted successfully', 'status' => true));
+        } else {
+            echo json_encode(array('message' => 'Something wrong', 'status' => false));
+        }
+    }
+    public function contactinsert()
+    {
+        if ($this->adminModel->contact_insert($_POST['fname'], $_POST['lname'], $_POST['phone'], $_POST['email'])) {
+            echo json_encode(array("message" => "hello " . $_POST['fname'] . "," . " we will contact you soon", "status" => true));
+        } else {
+            echo json_encode(array("message" => "Something wrong", "status" => false));
+        }
+    }
+    public function export_csv()
     {
         /* file name */
         $filename = 'users_' . date('Ymd') . '.csv';
@@ -261,9 +287,14 @@ class Admin extends CI_Controller
         header("Content-Type: application/csv; ");
         /* get data */
         $usersData = $this->adminModel->getUserDetails();
+        //echo "<pre>";
+        //print_r($usersData);
+        //die;
         /* file creation */
-        $file = fopen('php:/* output', 'w');
-        $header = array("First name", "last name", "Phone", "Email");
+        $file = fopen('php://output', 'w');
+        //echo $file;
+        //die;
+        $header = array("id", "firstname", "lastname", "phone", "Email", "date");
         fputcsv($file, $header);
         foreach ($usersData as $key => $line) {
             fputcsv($file, $line);

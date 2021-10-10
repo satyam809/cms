@@ -47,7 +47,7 @@
             // fetch gallery
             function loadAllGalleryImages() {
                 $.ajax({
-                    url: "http://localhost/myproject/ims/admin/api/gallery/galleryImagesFetch.php",
+                    url: "<?php echo base_url(); ?>admin/fetchgallery",
                     dataType: "json",
                     success: function(data) {
                         //console.log(data);
@@ -59,9 +59,9 @@
                                 $("#galleryAllImages").append(` <li class="isotopeSelector contest">
                         <div class="overlay">
 
-                            <a class="galleryItem" href="http://localhost/myproject/ims/admin/images/${value.images}"><span class="icon-enlarge-icon"></span></a>
+                            <a class="galleryItem" href="<?php echo base_url(); ?>assets/admin/images/${value.images}"><span class="icon-enlarge-icon"></span></a>
                         </div>
-                        <figure><img src="http://localhost/myproject/ims/admin/images/${value.images}" class="img-responsive" alt=""></figure>
+                        <figure><img src="<?php echo base_url(); ?>assets/admin/images/${value.images}" class="img-responsive" alt=""></figure>
                     </li>`);
                             });
                             i++;

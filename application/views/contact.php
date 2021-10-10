@@ -112,7 +112,7 @@
       //console.log($('#contact_form').serialize());
       //$('#response').html($('#contact_form').serialize());
       $.ajax({
-        url: "http://localhost/myproject/ims/admin/api/contact/insertContact.php",
+        url: "<?php echo base_url(); ?>admin/contactinsert",
         method: "POST",
         dataType: "JSON",
         data: new FormData(this),
